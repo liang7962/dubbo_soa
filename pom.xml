@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.jin</groupId>
+  <artifactId>dubbo_soa</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <!--依赖管理  -->
+  <dependencyManagement>
+	  <dependencies>
+	  	<!-- https://mvnrepository.com/artifact/com.alibaba/dubbo -->
+	  	<!--dubbo资源，dubbo默认依赖spring容器。所以 通过maven下载dubbo的时候自动下载spring。
+	  	且dubbo自动下载的是spring2.xjar包，所以需要排除spring的jar包依赖，自主导入spring依赖的高版本jar包 -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>dubbo</artifactId>
+		    <version>2.5.3</version>
+		    <!--不包含，下载依赖的时候，不下载依赖中的jar包  -->
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.springframework</groupId>
+		    		<artifactId>spring</artifactId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+	  
+	  	<!--spring容器，dubbo单独开发的时候，只需要spring-context容器jar包-->
+	  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>4.1.6.RELEASE</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.101tec/zkclient -->
+		<!--zookeeper客户端jar包，Provider发布服务时使用Consumer发现服务时使用  -->
+		<dependency>
+		    <groupId>com.101tec</groupId>
+		    <artifactId>zkclient</artifactId>
+		    <version>0.10</version>
+		</dependency>
+		
+	  
+	  </dependencies>
+  </dependencyManagement>
+  <modules>
+  	<module>dubbo_rpc</module>
+  </modules>
+</project>

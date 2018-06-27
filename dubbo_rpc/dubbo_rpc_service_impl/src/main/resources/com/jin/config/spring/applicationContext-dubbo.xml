@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://code.alibabatech.com/schema/dubbo 
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+	<!-- 使用dubbo标签注释要发布的服务 -->
+	
+	
+	<!-- 提供方应用信息，用于计算依赖关系  ，任意定义一个名字，为dubbo应用命名-->
+    <dubbo:application name="demo-test-provider"/>
+    
+    <!-- 使用zk广播注册中心暴露服务地址  提供注册中心信息 -->
+    <dubbo:registry id="zk1"  address="192.168.0.0:2181"  protocol="zookeeper" />
+    
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol id="mydubbo"  name="dubbo" port="20880" />
+   
+    <!-- 声明需要暴露的服务接口    
+    	提供的服务，要发布到注册中心的服务信息 ，需要描述要发布的服务接口信息
+    	需要提供一个接口的实现类，实现类的对象就是spring容器管理的对象
+    	-->
+    <dubbo:service interface="com.jin.service.IndividualService" ref="individualService" />
+    
+    <!-- 和本地bean一样实现服务  发布的服务接口由本地的什么实现类提供代码实现 -->
+    <bean id="individualService" class="com.jin.service.IndividualServiceImpl">
+    	<property name="individualMapper" ref="individualMapper"></property>
+    </bean>
+    
+    <bean id="individualMapper" class="com.jin.mapper.IndividualMapper"></bean>
+    
+</beans>
